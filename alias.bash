@@ -49,7 +49,8 @@ kns () { kubectl config get-contexts | awk '{print $5}' | tail -n1; }
 kbclogs () {
   keyword=$1
   num=${2:-1}
-  kbc logs -f $(kbc get po | grep "$keyword" | awk '{print $1}' | sed -n ${num}p);
+  rest=$3
+  kubectl logs -f $(kubectl get po | grep "$keyword" | awk '{print $1}' | sed -n ${num}p) $3;
 }
 fcd () { cd *"$1"*; }
 alias rds-tunnel='ssh -i ~/.ssh/adeptmind.pem -N -L5431:gsd-prod.cc317gog3hcw.us-west-2.rds.amazonaws.com:5432 gsd-tunnel'
