@@ -54,5 +54,25 @@ kbclogs () {
 }
 fcd () { cd *"$1"*; }
 alias rds-tunnel='ssh -i ~/.ssh/adeptmind.pem -N -L5431:gsd-prod.cc317gog3hcw.us-west-2.rds.amazonaws.com:5432 gsd-tunnel'
+alias rds-tunnel-internal='ssh -i ~/.ssh/adeptmind.pem -N -L5431:gsd-prod.cc317gog3hcw.us-west-2.rds.amazonaws.com:5432 gsd-tunnel-internal'
 alias jest-test='node --inspect-brk node_modules/.bin/jest --runInBand'
 alias gre='GREP_OPTIONS="--color=auto" grep'
+alias reset-network='sudo ifconfig en0 down && sudo route flush && sudo ifconfig en0 up'
+adeptvpn4000 () { ssh -i ~/.ssh/adeptmind.pem -g -R \*:4000:0.0.0.0:$1 ubuntu@vpn.internal.adeptmind.ai; }
+curlcode () {
+  url=$1
+  curl -LI "$1" -o /dev/null -w '%
+  {http_code}\n' -s;
+}
+curll () {
+  url=$1
+  curl "$1" -w '\n' -s;
+}
+
+alias adapter-tunnel='ssh -i ~/.ssh/adeptmind.pem -gq -R \*:4000:0.0.0.0:8153 ubuntu@vpn.internal.adeptmind.ai'
+
+killport () {
+  port2kill=$1
+  task2killcontains="debug"
+  lsof -i:"$port2kill" | grep $task2killcontains | awk '{print $2}' | xargs kill -9
+}

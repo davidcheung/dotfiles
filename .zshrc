@@ -142,9 +142,12 @@ export NVM_DIR=~/.nvm
 ## node paths
 export PATH=:/Users/davidcheung/davidbin:$PATH
 export PATH=:~/Library/Python/3.6/bin:$PATH
+export PATH=:~/go/bin/:$PATH
+
 export NVM_DIR=~/.nvm
 export PATH=./node_modules/.bin:$PATH
 export PATH
+export KOPS_STATE_STORE=s3://cluster.adeptmind.ai
 
 complete -F _ssh ssh
 source ~/git-completion.bash
