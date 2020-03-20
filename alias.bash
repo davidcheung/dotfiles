@@ -43,6 +43,7 @@ alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\
 alias pem-key-pair='openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048 && openssl rsa -pubout -in private_key.pem -out public_key.pem'
 alias loginaws='$(aws ecr get-login --no-include-email --region us-west-2)'
 alias kbc='kubectl'
+alias start_postgres='pg_ctl -D /usr/local/var/postgres start'
 kbc-default-namespace () { kubectl config set-context --current  --namespace="$1"; }
 kns-set () { kubectl config set-context --current  --namespace="$1"; }
 kns () { kubectl config get-contexts | awk '{print $5}' | tail -n1; }
@@ -58,6 +59,7 @@ alias rds-tunnel-internal='ssh -i ~/.ssh/adeptmind.pem -N -L5431:gsd-prod.cc317g
 alias jest-test='node --inspect-brk node_modules/.bin/jest --runInBand'
 alias gre='GREP_OPTIONS="--color=auto" grep'
 alias reset-network='sudo ifconfig en0 down && sudo route flush && sudo ifconfig en0 up'
+alias start-mongo='mongod --dbpath /usr/local/var/mongodb  --fork --syslog'
 adeptvpn4000 () { ssh -i ~/.ssh/adeptmind.pem -g -R \*:4000:0.0.0.0:$1 ubuntu@vpn.internal.adeptmind.ai; }
 curlcode () {
   url=$1
@@ -75,4 +77,9 @@ killport () {
   port2kill=$1
   task2killcontains="debug"
   lsof -i:"$port2kill" | grep $task2killcontains | awk '{print $2}' | xargs kill -9
+}
+tunnel () {
+  from=$1
+  to=$2
+  ssh -i ~/.ssh/adeptmind.pem -gq -R \*:$to:0.0.0.0:$from ubuntu@vpn.internal.adeptmind.ai
 }
